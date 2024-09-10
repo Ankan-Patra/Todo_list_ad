@@ -42,6 +42,11 @@ const Todo = () => {
             })
         })
     }
+    const editTodo = (id, newText) => {
+        setTodoList((Todo) => Todo.map((todo) => 
+            todo.id === id ? { ...todo, text: newText } : todo
+        ));
+    }
 
     return (
         <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
@@ -56,7 +61,7 @@ const Todo = () => {
 
             <div>
                 {todoList.map((item, index) => {
-                    return <Todoitems key={index} text={item.text} id={item.id} isComplete={item.isComplete} remove={removeTodo} toggle={toggleTodo} />
+                    return <Todoitems key={index} text={item.text} id={item.id} isComplete={item.isComplete} remove={removeTodo} toggle={toggleTodo} edit = {editTodo}/>
                 })}
 
             </div>
