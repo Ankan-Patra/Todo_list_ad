@@ -23,7 +23,7 @@ const Todo = () => {
     }
     useEffect(() => {
         localStorage.setItem("todos", JSON.stringify(todoList)); // to convert json value in string , because in localstorage we can only store string value 
-    } , [todoList])
+    }, [todoList])
 
     const removeTodo = (id) => {
         setTodoList((Todo) => {
@@ -42,14 +42,29 @@ const Todo = () => {
             })
         })
     }
-    const editTodo = (id, newText) => {
-        setTodoList((Todo) => Todo.map((todo) => 
-            todo.id === id ? { ...todo, text: newText } : todo
-        ));
+    const editTodo = (id , newText) => {
+        setTodoList((Todo) => {
+            return Todo.map((todo) => {
+                if (todo.id === id) {
+                    return { ...todo, text: newText };
+                }
+                return todo;
+            }) 
+        });
+    }
+    const scheduleTodo = (id, time) => {
+        setTodoList((Todo) => {
+            return Todo.map((todo) => {
+                if (todo.id === id) {
+                    return { ...todo, scheduledTime: time };
+                }
+                return todo;
+            }) 
+        });
     }
 
     return (
-        <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
+        <div className='bg-white place-self-center w-11/12 max-w-xl flex flex-col p-7 min-h-[550px] rounded-xl'>
             <div className='flex items-center mt-7 gap-2'>
                 <img className='w-8' src={todo_icon} alt="" />
                 <h1 className='text-3xl font-semibold'>Todo List</h1>
@@ -61,7 +76,7 @@ const Todo = () => {
 
             <div>
                 {todoList.map((item, index) => {
-                    return <Todoitems key={index} text={item.text} id={item.id} isComplete={item.isComplete} remove={removeTodo} toggle={toggleTodo} edit = {editTodo}/>
+                    return <Todoitems key={index} text={item.text} id={item.id} isComplete={item.isComplete} remove={removeTodo} toggle={toggleTodo} edit={editTodo} schedule={scheduleTodo} />
                 })}
 
             </div>
